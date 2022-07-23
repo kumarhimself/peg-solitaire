@@ -15,7 +15,7 @@ public class PegSolitaire {
     }
 
     // int readValidInt(Scanner in, String prompt, int min, int max)
-    public static int readValidInt(Scanner input, String prompt, int min, int max) {
+    private static int readValidInt(Scanner input, String prompt, int min, int max) {
         int answer;
         System.out.print(prompt);
 
@@ -37,6 +37,7 @@ public class PegSolitaire {
     }
 
     // char[][] createBoard(char[][] board)
+    private static char[][] createBoard(char[][] board) {}
 
     // void displayBoard(char[][] board)
 
