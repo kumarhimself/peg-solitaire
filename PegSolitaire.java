@@ -11,12 +11,22 @@ public class PegSolitaire {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        readValidInt(input, "Enter a number between 1 and 4: ", 1, 4);
+        System.out.println("2D PEG SOLITAIRE");
+        System.out.println("================");
+
+        System.out.println("Board Variant Menu");
+        System.out.println("    1. English");
+        System.out.println("    2. European");
+        System.out.println("    3. Triangle");
+        System.out.println("    4. Simple-T");
+
+        char[][] board = createBoard(readValidInt(input, "Choose a board variant (1-4)", 1, 4));
     }
 
     // int readValidInt(Scanner in, String prompt, int min, int max)
     private static int readValidInt(Scanner input, String prompt, int min, int max) {
         int answer;
+
         System.out.print(prompt);
 
         while (true) {
@@ -36,8 +46,53 @@ public class PegSolitaire {
         }
     }
 
-    // char[][] createBoard(char[][] board)
-    private static char[][] createBoard(char[][] board) {}
+    // char[][] createBoard(int boardType)
+    private static char[][] createBoard(int boardType) {
+        switch (boardType) {
+
+            // English Variant
+            case 1:
+                return new char[][] {
+                    {'#', '#', '#', '@', '@', '@', '#', '#', '#'},
+                    {'#', '#', '#', '@', '@', '@', '#', '#', '#'},
+                    {'@', '@', '@', '@', '@', '@', '@', '@', '@'},
+                    {'@', '@', '@', '@', '-', '@', '@', '@', '@'},
+                    {'@', '@', '@', '@', '@', '@', '@', '@', '@'},
+                    {'#', '#', '#', '@', '@', '@', '#', '#', '#'},
+                    {'#', '#', '#', '@', '@', '@', '#', '#', '#'}
+                };
+
+            // European Variant
+            case 2:
+                return new char[][] {
+                    {'#', '-', '@', '@', '-', '#'},
+                    {'-', '@', '@', '@', '@', '-'},
+                    {'@', '@', '@', '@', '@', '@'},
+                    {'@', '@', '@', '@', '@', '@'},
+                    {'-', '@', '@', '@', '@', '-'},
+                    {'#', '-', '@', '@', '-', '#'},
+                };
+
+            // Triangle Variant
+            case 3:
+                return new char[][] {
+                    {'#', '#', '#', '-', '@', '-', '#', '#', '#'},
+                    {'#', '#', '-', '@', '@', '@', '-', '#', '#'},
+                    {'#', '-', '@', '@', '-', '@', '@', '-', '#'},
+                    {'-', '@', '@', '@', '@', '@', '@', '@', '-'},
+                };
+            case 4:
+                return new char[][] {
+                    {'-', '-', '-', '-', '-'},
+                    {'-', '@', '@', '@', '-'},
+                    {'-', '-', '@', '-', '-'},
+                    {'-', '-', '@', '-', '-'},
+                    {'-', '-', '-', '-', '-'},
+                };
+        }
+
+        return new char[][] {{}};
+    }
 
     // void displayBoard(char[][] board)
 
