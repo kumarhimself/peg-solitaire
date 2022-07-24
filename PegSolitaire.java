@@ -131,7 +131,33 @@ public class PegSolitaire {
     }
 
     // boolean isValidMove(char[][] board, int row, int column, int direction)
-    
+    private static boolean isValidMove(char[][] board, int row, int column, int direction) {
+        if (board[row][column] == '@') {
+            switch(direction) {
+                // North
+                case 1:
+                    if (board[row + 1][column] == '@' && board[row + 2][column] == '-') return true;
+                
+                // South
+                case 2:
+                    if (board[row - 1][column] == '@' && board[row - 2][column] == '-') return true;
+                
+                // West
+                case 3:
+                    if (board[row][column - 1] == '@' && board[row][column - 2] == '-') return true;
+                
+                // East
+                case 4:
+                    if (board[row][column + 1] == '@' && board[row][column + 2] == '-') return true;
+                
+                default:
+                    return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     // char[][] performMove(char[][] board, int row, int column, int direction)
 
     // int countPegsRemaining(char[][] board)
