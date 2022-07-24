@@ -22,10 +22,10 @@ public class PegSolitaire {
 
         char[][] board = createBoard(readValidInt(input, "Choose a board variant (1-4): ", 1, 4));
 
-        displayBoard(board);
+        int[] playerMove = readValidMove(input, board);
     }
 
-    // int readValidInt(Scanner in, String prompt, int min, int max)
+    // int readValidInt(Scanner input, String prompt, int min, int max)
     private static int readValidInt(Scanner input, String prompt, int min, int max) {
         int answer;
 
@@ -117,10 +117,21 @@ public class PegSolitaire {
         }
     }
 
-    // int[] readValidMove(Scanner in, char[][] board)
+    // int[] readValidMove(Scanner input, char[][] board)
+    private static int[] readValidMove(Scanner input, char[][] board) {
+        int row, column, direction;
+
+        displayBoard(board);
+
+        row = readValidInt(input, "Please enter the row of the peg you would like to move: ", 0, board.length - 1);
+        column = readValidInt(input, "Please enter the column of the peg you would like to move: ", 0, board[0].length - 1);
+        direction = readValidInt(input, "Direction  \n  1. North \n  2. South \n  3. West \n  4. East \nChoose the direction you would like to move the peg in: ", 0, 4);
+
+        return new int[] {row, column, direction};
+    }
 
     // boolean isValidMove(char[][] board, int row, int column, int direction)
-
+    
     // char[][] performMove(char[][] board, int row, int column, int direction)
 
     // int countPegsRemaining(char[][] board)
