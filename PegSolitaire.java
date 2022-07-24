@@ -15,12 +15,14 @@ public class PegSolitaire {
         System.out.println("================");
 
         System.out.println("Board Variant Menu");
-        System.out.println("    1. English");
-        System.out.println("    2. European");
-        System.out.println("    3. Triangle");
-        System.out.println("    4. Simple-T");
+        System.out.println("  1. English");
+        System.out.println("  2. European");
+        System.out.println("  3. Triangle");
+        System.out.println("  4. Simple-T");
 
-        char[][] board = createBoard(readValidInt(input, "Choose a board variant (1-4)", 1, 4));
+        char[][] board = createBoard(readValidInt(input, "Choose a board variant (1-4): ", 1, 4));
+
+        displayBoard(board);
     }
 
     // int readValidInt(Scanner in, String prompt, int min, int max)
@@ -89,12 +91,31 @@ public class PegSolitaire {
                     {'-', '-', '@', '-', '-'},
                     {'-', '-', '-', '-', '-'},
                 };
+            default:
+                return new char[][] {{}};
         }
-
-        return new char[][] {{}};
     }
 
     // void displayBoard(char[][] board)
+    private static void displayBoard(char[][] board) {
+        System.out.print("  ");
+
+        for (int i = 0; i < board[0].length; i++) {
+            System.out.print(i + " ");
+        }
+
+        System.out.println();
+
+        for (int j = 0; j < board.length; j++) {
+            for (int k = 0; k < board[j].length; k++) {
+                if (k == 0) {
+                    System.out.print(j + " ");
+                }
+                System.out.print(board[j][k] + " ");
+            }
+            System.out.println();
+        }
+    }
 
     // int[] readValidMove(Scanner in, char[][] board)
 
