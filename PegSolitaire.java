@@ -22,7 +22,15 @@ public class PegSolitaire {
 
         char[][] board = createBoard(readValidInt(input, "Choose a board variant (1-4): ", 1, 4));
 
-        int[] playerMove = readValidMove(input, board);
+        displayBoard(board);
+
+        while (true) {
+            int[] playerMove = readValidMove(input, board);
+
+            if (isValidMove(board, playerMove[0], playerMove[1], playerMove[2])) {
+                performMove(board, playerMove[0], playerMove[1], playerMove[2]);
+            }
+        }
     }
 
     // int readValidInt(Scanner input, String prompt, int min, int max)
@@ -159,6 +167,41 @@ public class PegSolitaire {
     }
 
     // char[][] performMove(char[][] board, int row, int column, int direction)
+    private static char[][] performMove(char[][] board, int row, int column, int direction) {
+        switch(direction) {
+            // North
+            case 1:
+                board[row][column] = '-';
+                board[row + 1][column] = '-';
+                board[row + 2][column] = '@';
+
+                return board;
+            
+            // South
+            case 2:
+                board[row][column] = '-';
+                board[row - 1][column] = '-';
+                board[row - 2][column] = '@';
+
+                return board;            
+            // West
+            case 3:
+                board[row][column] = '-';
+                board[row][column + 1] = '-';
+                board[row][column + 2] = '@';
+
+                return board;            
+            // East
+            case 4:
+                board[row][column] = '-';
+                board[row][column - 1] = '-';
+                board[row][column - 2] = '@';
+
+                return board;         
+        }
+        
+        return new char[][] {{}};
+    }
 
     // int countPegsRemaining(char[][] board)
 
