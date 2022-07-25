@@ -29,6 +29,12 @@ public class PegSolitaire {
 
             if (isValidMove(board, playerMove[0], playerMove[1], playerMove[2])) {
                 performMove(board, playerMove[0], playerMove[1], playerMove[2]);
+                displayBoard(board);
+
+                if (countPegsRemaining(board) == 1) {
+                    System.out.println("Congrats, you won!");
+                    break;
+                }
             }
         }
     }
@@ -129,8 +135,6 @@ public class PegSolitaire {
     private static int[] readValidMove(Scanner input, char[][] board) {
         int row, column, direction;
 
-        displayBoard(board);
-
         row = readValidInt(input, "Please enter the row of the peg you would like to move: ", 0, board.length - 1);
         column = readValidInt(input, "Please enter the column of the peg you would like to move: ", 0, board[0].length - 1);
         direction = readValidInt(input, "Direction  \n  1. North \n  2. South \n  3. West \n  4. East \nChoose the direction you would like to move the peg in: ", 0, 4);
@@ -204,7 +208,18 @@ public class PegSolitaire {
     }
 
     // int countPegsRemaining(char[][] board)
+    private static int countPegsRemaining(char[][] board) {
+        int count = 0;
+
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[0].length; column++) {
+                if (board[row][column] == '@') {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
     // int countMovesAvailable(char[][] board)
-
 }
