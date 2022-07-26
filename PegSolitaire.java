@@ -29,6 +29,7 @@ public class PegSolitaire {
 
             if (isValidMove(board, playerMove[0], playerMove[1], playerMove[2])) {
                 performMove(board, playerMove[0], playerMove[1], playerMove[2]);
+                System.out.println("The move has been performed!");
 
                 if (countPegsRemaining(board) == 1) {
                     System.out.println("Congrats, you won!");
@@ -39,7 +40,12 @@ public class PegSolitaire {
                     System.out.println("Hehe, you lost (＾▽＾)!");
                     break;
                 }
+            } else {
+                System.out.println("This move is not legal!");
+                displayBoard(board);
+                continue;
             }
+
             displayBoard(board);
         }
     }
@@ -125,12 +131,12 @@ public class PegSolitaire {
 
         System.out.println();
 
-        for (int j = 0; j < board.length; j++) {
-            for (int k = 0; k < board[j].length; k++) {
-                if (k == 0) {
-                    System.out.print(j + " ");
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                if (column == 0) {
+                    System.out.print(row + " ");
                 }
-                System.out.print(board[j][k] + " ");
+                System.out.print(board[row][column] + " ");
             }
             System.out.println();
         }
@@ -140,37 +146,41 @@ public class PegSolitaire {
     private static int[] readValidMove(Scanner input, char[][] board) {
         int row, column, direction;
 
-        row = readValidInt(input, "Please enter the row of the peg you would like to move: ", 0, board.length - 1);
-        column = readValidInt(input, "Please enter the column of the peg you would like to move: ", 0, board[0].length - 1);
-        direction = readValidInt(input, "Direction  \n  1. North \n  2. South \n  3. West \n  4. East \nChoose the direction you would like to move the peg in: ", 0, 4);
+        row = readValidInt(input, "Please enter the row of the peg you would like to move (0, " + (board.length - 1) +"): ", 0, board.length - 1);
+        column = readValidInt(input, "Please enter the column of the peg you would like to move (0, " + (board[0].length - 1) +"): ", 0, board[0].length - 1);
+        direction = readValidInt(input, "Direction  \n  1. North \n  2. South \n  3. West \n  4. East \nChoose the direction you would like to move the peg in: ", 1, 4);
 
-        return new int[] {row, column, direction + 1};
+        return new int[] {row, column, direction};
     }
 
     // boolean isValidMove(char[][] board, int row, int column, int direction)
     private static boolean isValidMove(char[][] board, int row, int column, int direction) {
-        if (board[row][column] == '@') {
-            switch(direction) {
-                // North
-                case 1:
-                    if (board[row + 1][column] == '@' && board[row + 2][column] == '-') return true;
-                
-                // South
-                case 2:
-                    if (board[row - 1][column] == '@' && board[row - 2][column] == '-') return true;
-                
-                // West
-                case 3:
-                    if (board[row][column - 1] == '@' && board[row][column - 2] == '-') return true;
-                
-                // East
-                case 4:
-                    if (board[row][column + 1] == '@' && board[row][column + 2] == '-') return true;
-                
-                default:
-                    return false;
+        try {
+            if (board[row][column] == '@') {
+                switch(direction) {
+                    // North
+                    case 1:
+                        if (board[row - 1][column] == '@' && board[row - 2][column] == '-') return true;
+                    
+                    // South
+                    case 2:
+                        if (board[row + 1][column] == '@' && board[row + 2][column] == '-') return true;
+                    
+                    // West
+                    case 3:
+                        if (board[row][column - 1] == '@' && board[row][column - 2] == '-') return true;
+                    
+                    // East
+                    case 4:
+                        if (board[row][column + 1] == '@' && board[row][column + 2] == '-') return true;
+                    
+                    default:
+                        return false;
+                }
+            } else {
+                return false;
             }
-        } else {
+        } catch (ArrayIndexOutOfBoundsException error) {
             return false;
         }
     }
@@ -178,33 +188,37 @@ public class PegSolitaire {
     // char[][] performMove(char[][] board, int row, int column, int direction)
     private static char[][] performMove(char[][] board, int row, int column, int direction) {
         switch(direction) {
+            
             // North
             case 1:
-                board[row][column] = '-';
-                board[row + 1][column] = '-';
-                board[row + 2][column] = '@';
-
-                return board;
-            
-            // South
-            case 2:
                 board[row][column] = '-';
                 board[row - 1][column] = '-';
                 board[row - 2][column] = '@';
 
+                return board;
+            
+            
+            // South
+            case 2:
+                board[row][column] = '-';
+                board[row + 1][column] = '-';
+                board[row + 2][column] = '@';
+
                 return board;            
+            
             // West
             case 3:
                 board[row][column] = '-';
-                board[row][column + 1] = '-';
-                board[row][column + 2] = '@';
+                board[row][column - 1] = '-';
+                board[row][column - 2] = '@';
 
                 return board;            
+            
             // East
             case 4:
                 board[row][column] = '-';
-                board[row][column - 1] = '-';
-                board[row][column - 2] = '@';
+                board[row][column + 1] = '-';
+                board[row][column + 2] = '@';
 
                 return board;         
         }
@@ -230,12 +244,10 @@ public class PegSolitaire {
     private static int countMovesAvailable(char[][] board) {
         int numValidMoves = 0;
 
-        for (int direction = 1; direction <= 4; direction++) {
-            for (int row = 0; row < board.length; row++) {
-                for (int column = 0; column < board[0].length; column++) {
-                    if (isValidMove(board, row, column, direction) == true) {
-                        numValidMoves++;
-                    }
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[0].length; column++) {
+                for (int direction = 1; direction < 5; direction++) {
+                    if (isValidMove(board, row, column, direction) == true) numValidMoves++;
                 }
             }
         }
